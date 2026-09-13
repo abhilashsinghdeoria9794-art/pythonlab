@@ -1,0 +1,7 @@
+art=input("enter the statement:")
+print(art[15])
+print(art[9:26])
+print(art[9:])
+print(art[:20])
+print(art[9:len(art)])
+print(len(art))
