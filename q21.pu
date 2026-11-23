@@ -1,0 +1,21 @@
+import csv
+import requests
+from bs4 import BeautifulSoup
+
+url = "http://books.toscrape.com/"
+response = requests.get(url)
+soup = BeautifulSoup(response.text, "html.parser")
+
+products = []
+for item in soup.select("article.product_pod"):
+    title = item.h3.a["title"]
+    price = item.select_one("p.price_color").text.strip()
+    availability = item.select_one("p.instock.availability").text.strip()
+    products.append([title, price, availability])
+
+with open("products.csv", "w", newline="", encoding="utf-8") as file:
+    writer = csv.writer(file)
+    writer.writerow(["Title", "Price", "Availability"])
+    writer.writerows(products)
+
+print("Scraped", len(products), "products into products.csv")
